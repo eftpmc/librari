@@ -3,9 +3,8 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '@/styles/page.module.css';
-
-import { SearchForm } from "@/components/searchform"
-import { SearchResults } from "@/components/searchresults/component"
+import "@/components/search-page"
+import SearchPage from '@/components/search-page';
 
 const Page: NextPage = () => {
   return (
@@ -21,8 +20,7 @@ const Page: NextPage = () => {
           Librari
         </h1>
 
-        <SearchForm></SearchForm>
-        <SearchResults></SearchResults>
+        <SearchPage></SearchPage>
       </main>
 
       <footer className={styles.footer}>

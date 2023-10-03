@@ -1,9 +1,16 @@
+"use client"
+
 import React, { useState, useEffect } from 'react';
 import { Result, columns } from "./columns";
 import { DataTable } from "./data-table";
 
-async function getData(): Promise<Result[]> {
+type SearchResultsProps = {
+  keyword: string | null;
+};
+
+async function getData(keyword?: string): Promise<Result[]> {
   // Fetch data from your API here.
+  console.log(keyword)
   return [
     {
       id: "32022sword-god-in-a-world-of-magic-27144",
@@ -18,22 +25,24 @@ async function getData(): Promise<Result[]> {
   ];
 }
 
-export function SearchResults() {
+export function SearchResults({ keyword }: SearchResultsProps) {
   const [data, setData] = useState<Result[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    getData()
-      .then(responseData => {
-        setData(responseData);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err);
-        setLoading(false);
-      });
-  }, []);
+    if (keyword) {
+      getData(keyword)
+        .then(responseData => {
+          setData(responseData);
+          setLoading(false);
+        })
+        .catch(err => {
+          setError(err);
+          setLoading(false);
+        });
+    }
+  }, [keyword]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;

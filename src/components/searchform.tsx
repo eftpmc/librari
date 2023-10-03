@@ -1,4 +1,5 @@
 "use client"
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -21,7 +22,11 @@ const formSchema = z.object({
     keyword: z.string().min(2).max(20),
 })
 
-export function SearchForm() {
+type SearchFormProps = {
+    onSearch: (keyword: string) => void;
+  };
+
+export function SearchForm({ onSearch }: SearchFormProps) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -30,13 +35,13 @@ export function SearchForm() {
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
         toast({
             title: "You searched for the following book:",
             description: (
               `${values.keyword}`
             ),
           })
+          onSearch(values.keyword);
     }
 
     return (
