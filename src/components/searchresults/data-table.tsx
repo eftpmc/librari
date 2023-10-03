@@ -49,7 +49,7 @@ export function DataTable<TData, TValue>({
         const rowData = table?.getRowModel()?.rowsById?.[selectionKey]?.original as Result || {};
         setSelectedTitle(rowData?.title ?? "Nothing selected") 
 
-    }, [rowSelection]); // This effect runs every time "count" changes
+    }, [rowSelection, table]); // This effect runs every time "count" changes
 
 
     return (
