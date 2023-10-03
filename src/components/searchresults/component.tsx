@@ -1,61 +1,53 @@
-"use client"
-
-import axios from 'axios';
-import cheerio from 'cheerio';
-
+// External imports
 import React, { useState, useEffect } from 'react';
+
+// Local imports
 import { Result, columns } from "./columns";
 import { DataTable } from "./data-table";
-import { getData } from '../../services/dataFetcher';
+import { fetchSearchResults } from '../../services/dataFetcher';
 
+// Types
 type SearchResultsProps = {
   keyword: string | null;
 };
 
-async function searchNovelhall(query: string): Promise<Result[]> {
-  const searchUrl = `https://www.novelhall.com/index.php?s=so&module=book&keyword=${query}`;
-
-  const response = await axios.get(searchUrl);
-
-  const $ = cheerio.load(response.data);
-
-  const searchResults: Result[] = [];
-  $('.section3 table tbody tr').each((index, row) => {
-    const title: string = $(row).find('td:nth-child(2) a').text().trim();
-    const href: string | undefined = $(row).find('td:nth-child(2) a').attr('href');
-    if (href) {
-      searchResults.push({ id: href, title, chapters: 1000 });
-    }
-  });
-
-  return searchResults;
-}
-
 export function SearchResults({ keyword }: SearchResultsProps) {
-  const [data, setData] = useState<Result[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [results, setResults] = useState<Result[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<Error | null>(null);
 
   useEffect(() => {
     if (keyword) {
-      getData(keyword)
+      fetchSearchResults(keyword)
         .then(responseData => {
-          setData(responseData);
-          setLoading(false);
+          setResults(responseData);
+          setIsLoading(false);
         })
         .catch(err => {
-          setError(err);
-          setLoading(false);
+          setFetchError(err);
+          setIsLoading(false);
         });
     }
   }, [keyword]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  // Styled loading state
+  if (isLoading) return (
+    <div className="flex justify-center items-center py-6 text-lg font-semibold text-gray-600">
+      No Data
+    </div>
+  );
 
+  // Styled error state
+  if (fetchError) return (
+    <div className="flex justify-center items-center py-6 text-lg font-semibold text-red-600">
+      Error: {fetchError.message}
+    </div>
+  );
+
+  // Data display
   return (
     <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={results} />
     </div>
   );
 }

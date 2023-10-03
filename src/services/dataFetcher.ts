@@ -3,7 +3,7 @@ import { Result } from '@/components/searchresults/columns';
 import { searchNovelhall } from './sources/novelhall';
 import { searchNovelbin } from './sources/novelbin';
 
-export async function getData(keyword?: string): Promise<Result[]> {
+export async function fetchSearchResults(keyword?: string): Promise<Result[]> {
     console.log(keyword);
   
     if (!keyword) {
