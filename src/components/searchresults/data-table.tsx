@@ -1,5 +1,9 @@
 "use client"
 
+// External imports
+import React, { useState, useEffect } from 'react';
+
+import { Result } from "./columns";
 import {
     ColumnDef,
     flexRender,
@@ -27,12 +31,26 @@ export function DataTable<TData, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
+    const [rowSelection, setRowSelection] = useState({})
+    const [selectedTitle, setSelectedTitle] = useState("Nothing selected")
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        onRowSelectionChange: setRowSelection,
+        state: {
+            rowSelection,
+        },
     })
+
+    useEffect(() => {
+        const selectionKey = Number(Object.keys(rowSelection)[0]);
+        const rowData = table?.getRowModel()?.rowsById?.[selectionKey]?.original as Result || {};
+        setSelectedTitle(rowData?.title ?? "Nothing selected") 
+
+    }, [rowSelection]); // This effect runs every time "count" changes
+
 
     return (
         <div>
@@ -80,6 +98,10 @@ export function DataTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
+            <div className="flex-1 text-sm text-muted-foreground">
+                {selectedTitle}
+            </div>
+
             <div className="flex items-center justify-end space-x-2 py-4">
                 <Button
                     variant="outline"
