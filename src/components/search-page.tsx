@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import { SearchForm } from './searchform'; // Update with your file path
+import { SearchForm } from './search-form'; // Update with your file path
 import { SearchResults } from './searchresults/component'; // Update with your file path
 
 export default function SearchPage() {

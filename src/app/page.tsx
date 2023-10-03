@@ -3,7 +3,6 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '@/styles/page.module.css';
-import "@/components/search-page"
 import SearchPage from '@/components/search-page';
 
 const Page: NextPage = () => {
