@@ -16,7 +16,7 @@ export const columns: ColumnDef<Result>[] = [
         onCheckedChange={(value: any) => {
           // If the row is being selected, first deselect all rows
           if (value) {
-            table.toggleAllPageRowsSelected(false);
+            table.toggleAllRowsSelected(false);
           }
           row.toggleSelected(!!value);
         }}
