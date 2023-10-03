@@ -3,7 +3,7 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '@/styles/page.module.css';
-import SearchPage from '@/components/search-page';
+import NovelPage from '@/components/novel-page';
 
 const Page: NextPage = () => {
   return (
@@ -19,7 +19,7 @@ const Page: NextPage = () => {
           Librari
         </h1>
 
-        <SearchPage></SearchPage>
+        <NovelPage></NovelPage>
       </main>
 
       <footer className={styles.footer}>

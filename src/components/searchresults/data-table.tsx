@@ -3,6 +3,7 @@
 // External imports
 import React, { useState, useEffect } from 'react';
 
+// Internal imports
 import { Result } from "./columns";
 import {
     ColumnDef,
@@ -23,8 +24,8 @@ import {
 import { Button } from "@/components/ui/button"
 
 interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[]
-    data: TData[]
+    columns: ColumnDef<TData, TValue>[];
+    data: TData[];
 }
 
 export function DataTable<TData, TValue>({
@@ -47,7 +48,7 @@ export function DataTable<TData, TValue>({
     useEffect(() => {
         const selectionKey = Number(Object.keys(rowSelection)[0]);
         const rowData = table?.getRowModel()?.rowsById?.[selectionKey]?.original as Result || {};
-        setSelectedTitle(rowData?.title ?? "Nothing selected") 
+        setSelectedTitle(rowData?.title ?? "Nothing selected");
 
     }, [rowSelection, table]); // This effect runs every time "count" changes
 

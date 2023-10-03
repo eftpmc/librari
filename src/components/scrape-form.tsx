@@ -17,31 +17,29 @@ import {
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 
-
 const formSchema = z.object({
-    keyword: z.string().min(2).max(20),
+    chapters: z.coerce.number({
+        required_error: "Chapters are required",
+        invalid_type_error: "Chapters must be a number",
+    }).int().positive(),
 })
 
-type SearchFormProps = {
-    keywordCallback: (keyword: string) => void;
-  };
-
-export function SearchForm({ keywordCallback }: SearchFormProps) {
+export function ScrapeForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            keyword: "",
+            chapters: 1,
         },
     })
 
+    // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
         toast({
-            title: "You searched for the following book:",
+            title: "Scraping started",
             description: (
-              `${values.keyword}`
+              `Chapters to scrape: ${values.chapters}`
             ),
           })
-          keywordCallback(values.keyword);
     }
 
     return (
@@ -49,15 +47,15 @@ export function SearchForm({ keywordCallback }: SearchFormProps) {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <FormField
                     control={form.control}
-                    name="keyword"
+                    name="chapters"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Search Form</FormLabel>
+                            <FormLabel>Chapters</FormLabel>
                             <FormControl>
-                                <Input placeholder="supreme magus.." {...field} />
+                                <Input type="number" placeholder="1" {...field} />
                             </FormControl>
                             <FormDescription>
-                                This is the title of the book you are searching for.
+                                This is the amount of chapters you want.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>

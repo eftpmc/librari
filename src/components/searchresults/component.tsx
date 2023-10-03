@@ -47,7 +47,7 @@ export function SearchResults({ keyword }: SearchResultsProps) {
   // Data display
   return (
     <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={results} />
+      <DataTable columns={columns} data={results}/>
     </div>
   );
 }
