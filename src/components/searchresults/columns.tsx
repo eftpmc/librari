@@ -4,7 +4,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 export type Result = {
   title: string
   url: string
-  chapters: number
+  chapters: number | undefined
 }
 
 export const columns: ColumnDef<Result>[] = [
