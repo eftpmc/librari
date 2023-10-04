@@ -16,7 +16,7 @@ export default function NovelPage() {
   return (
     <div className="container mx-auto py-10">
       <SearchForm keywordCallback={setKeyword} />
-      <SearchResults keyword={keyword} />
+      <SearchResults keyword={keyword} titleCallback={setTitleToScrape}/>
       <ScrapeForm titleToScrape={titleToScrape} urlToScrape={urlToScrape}></ScrapeForm>
     </div>
   );

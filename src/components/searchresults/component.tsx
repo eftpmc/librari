@@ -9,9 +9,10 @@ import { fetchSearchResults } from '../../services/dataFetcher';
 // Types
 type SearchResultsProps = {
   keyword: string | null;
+  titleCallback: (title: string) => void;
 };
 
-export function SearchResults({ keyword }: SearchResultsProps) {
+export function SearchResults({ keyword, titleCallback }: SearchResultsProps) {
   const [results, setResults] = useState<Result[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState<Error | null>(null);
@@ -47,7 +48,9 @@ export function SearchResults({ keyword }: SearchResultsProps) {
   // Data display
   return (
     <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={results}/>
+      <DataTable columns={columns} data={results} titleCallback={(title: string) => {
+        titleCallback(title);
+      }} />
     </div>
   );
 }

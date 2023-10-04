@@ -26,11 +26,13 @@ import { Button } from "@/components/ui/button"
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
+    titleCallback: (title: string) => void;
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
+    titleCallback,
 }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = useState({})
     const [selectedTitle, setSelectedTitle] = useState("Nothing selected")
@@ -47,8 +49,11 @@ export function DataTable<TData, TValue>({
 
     useEffect(() => {
         const selectionKey = Number(Object.keys(rowSelection)[0]);
-        const rowData = table?.getRowModel()?.rowsById?.[selectionKey]?.original as Result || {};
-        setSelectedTitle(rowData?.title ?? "Nothing selected");
+        const rowData = (table?.getRowModel()?.rowsById?.[selectionKey]?.original || {}) as Result;
+        const title = rowData?.title ?? "Nothing selected"
+
+        setSelectedTitle(title);
+        titleCallback(title);
 
     }, [rowSelection, table]); // This effect runs every time "count" changes
 
