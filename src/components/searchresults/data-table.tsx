@@ -27,12 +27,14 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     titleCallback: (title: string) => void;
+    urlCallback: (url: string) => void;
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
     titleCallback,
+    urlCallback,
 }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = useState({})
     const [selectedTitle, setSelectedTitle] = useState("Nothing selected")
@@ -51,9 +53,11 @@ export function DataTable<TData, TValue>({
         const selectionKey = Number(Object.keys(rowSelection)[0]);
         const rowData = (table?.getRowModel()?.rowsById?.[selectionKey]?.original || {}) as Result;
         const title = rowData?.title ?? "Nothing selected"
+        const url = rowData?.href ?? "No url"
 
         setSelectedTitle(title);
         titleCallback(title);
+        urlCallback(url)
 
     }, [rowSelection, table]); // This effect runs every time "count" changes
 

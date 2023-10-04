@@ -2,7 +2,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Checkbox } from "@/components/ui/checkbox"
 
 export type Result = {
-  id: string
+  href: string
   title: string
   chapters: number
 }

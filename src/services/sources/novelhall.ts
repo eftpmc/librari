@@ -13,9 +13,10 @@ export async function searchNovelhall(query: string): Promise<Result[]> {
     const title: string = $(row).find('td:nth-child(2) a').text().trim();
     const href: string | undefined = $(row).find('td:nth-child(2) a').attr('href');
     if (href) {
-      searchResults.push({ id: href, title, chapters: 1000 });
+      searchResults.push({ title: title, href: `https://www.novelhall.com${href}`, chapters: 1000 });
     }
   });
 
+  console.log(searchResults)
   return searchResults;
 }

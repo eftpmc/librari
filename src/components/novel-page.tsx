@@ -9,14 +9,12 @@ export default function NovelPage() {
   const [keyword, setKeyword] = useState<string | null>(null);
   const [titleToScrape, setTitleToScrape] = useState<string | null>(null);
   const [urlToScrape, setUrlToScrape] = useState<string | null>(null);
-  const [title, setTitle] = useState<string | null>(null);
-  const [url, setUrl] = useState<string | null>(null);
 
 
   return (
     <div className="container mx-auto py-10">
       <SearchForm keywordCallback={setKeyword} />
-      <SearchResults keyword={keyword} titleCallback={setTitleToScrape}/>
+      <SearchResults keyword={keyword} titleCallback={setTitleToScrape} urlCallback={setUrlToScrape}/>
       <ScrapeForm titleToScrape={titleToScrape} urlToScrape={urlToScrape}></ScrapeForm>
     </div>
   );
