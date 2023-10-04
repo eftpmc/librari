@@ -61,7 +61,7 @@ export function ScrapeForm() {
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Submit</Button>
+                <Button type="submit">Scrape</Button>
             </form>
         </Form>
     )
