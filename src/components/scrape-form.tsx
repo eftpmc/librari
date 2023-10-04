@@ -17,6 +17,11 @@ import {
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 
+type ScrapeProps = {
+    titleToScrape: string | null;
+    urlToScrape: string | null;
+  };
+
 const formSchema = z.object({
     chapters: z.coerce.number({
         required_error: "Chapters are required",
@@ -24,7 +29,7 @@ const formSchema = z.object({
     }).int().positive(),
 })
 
-export function ScrapeForm() {
+export function ScrapeForm({ titleToScrape, urlToScrape }: ScrapeProps) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -35,7 +40,7 @@ export function ScrapeForm() {
     // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
         toast({
-            title: "Scraping started",
+            title: `Title: ${titleToScrape}`,
             description: (
               `Chapters to scrape: ${values.chapters}`
             ),
