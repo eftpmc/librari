@@ -53,7 +53,7 @@ export function DataTable<TData, TValue>({
         const selectionKey = Number(Object.keys(rowSelection)[0]);
         const rowData = (table?.getRowModel()?.rowsById?.[selectionKey]?.original || {}) as Result;
         const title = rowData?.title ?? "Nothing selected"
-        const url = rowData?.href ?? "No url"
+        const url = rowData?.url ?? "No url"
 
         setSelectedTitle(title);
         titleCallback(title);
