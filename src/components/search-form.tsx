@@ -63,7 +63,7 @@ export function SearchForm({ keywordCallback }: SearchFormProps) {
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Submit</Button>
+                <Button type="submit">Search</Button>
             </form>
         </Form>
     )
