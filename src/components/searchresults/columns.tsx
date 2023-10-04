@@ -2,8 +2,8 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Checkbox } from "@/components/ui/checkbox"
 
 export type Result = {
-  href: string
   title: string
+  url: string
   chapters: number
 }
 

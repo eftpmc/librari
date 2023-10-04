@@ -17,7 +17,7 @@ export async function searchNovelbin(query: string): Promise<Result[]> {
 
         // Check the path of the URL to filter out the 'See more results' link
         if (href && !href.includes('/search')) {
-            searchResults.push({ id: href, title, chapters: 1000 });
+            searchResults.push({ title: title, url: href, chapters: 1000 });
         }
     });
 
