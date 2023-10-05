@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 // Local imports
 import { Result, columns } from "./columns";
 import { DataTable } from "./data-table";
-import { fetchSearchResults } from '../../services/dataFetcher';
+import { fetchSearchResults } from '@/services/dataFetcher';
 
 // Types
 type SearchResultsProps = {

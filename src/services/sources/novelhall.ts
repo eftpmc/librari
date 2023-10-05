@@ -23,6 +23,35 @@ export async function searchNovelhall(query: string): Promise<Result[]> {
     }
   });
 
-  console.log(searchResults)
   return searchResults;
 }
+
+export async function scrapeNovelhallContent(url: string, startChapter: number, chaptersToScrape: number) {
+
+  const response = await axios.get(url);
+  const $ = cheerio.load(response.data);
+
+  const title: string = $('.book-info h1').text().trim();
+  const imgUrl: string = $('.book-img img').attr('src') || '';
+  const imgResponse = await axios.get(imgUrl, { responseType: 'arraybuffer' });
+  const imgContent: Buffer = imgResponse.data;
+
+  const chapterLinks: string[] = [];
+  $('#morelist li a').slice(startChapter, startChapter + chaptersToScrape).each((_, elem) => {
+    const link = $(elem).attr('href');
+    if (link) {
+      chapterLinks.push(`https://www.novelhall.com${link}`);
+    }
+  });
+
+  const chapters: string[] = [];
+  for (const chapterUrl of chapterLinks) {
+    const chapterResponse = await axios.get(chapterUrl, { headers });
+    const chapter$ = cheerio.load(chapterResponse.data);
+    const chapterText: string = chapter$('.entry-content').html() || '';
+    chapters.push(chapterText);
+  }
+
+  return { title, imgContent, chapters };
+}
+
