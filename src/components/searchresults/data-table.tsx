@@ -59,7 +59,7 @@ export function DataTable<TData, TValue>({
         titleCallback(title);
         urlCallback(url)
 
-    }, [rowSelection, table]); // This effect runs every time "count" changes
+    }, [rowSelection, table, titleCallback, urlCallback]); // This effect runs every time "count" changes
 
 
     return (

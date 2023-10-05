@@ -27,13 +27,17 @@ export async function searchNovelhall(query: string): Promise<Result[]> {
 }
 
 export async function scrapeNovelhallContent(url: string, startChapter: number, chaptersToScrape: number) {
+  const proxyBaseUrl = "https://backend-proxy-for-librari.vercel.app/api/proxy?url=";
 
-  const response = await axios.get(url);
+  // Use proxy for initial URL
+  const response = await axios.get(`${proxyBaseUrl}${encodeURIComponent(url)}`);
   const $ = cheerio.load(response.data);
 
   const title: string = $('.book-info h1').text().trim();
   const imgUrl: string = $('.book-img img').attr('src') || '';
-  const imgResponse = await axios.get(imgUrl, { responseType: 'arraybuffer' });
+
+  // Use proxy for image URL
+  const imgResponse = await axios.get(`${proxyBaseUrl}${encodeURIComponent(imgUrl)}`, { responseType: 'arraybuffer' });
   const imgContent: Buffer = imgResponse.data;
 
   const chapterLinks: string[] = [];
@@ -46,7 +50,8 @@ export async function scrapeNovelhallContent(url: string, startChapter: number, 
 
   const chapters: string[] = [];
   for (const chapterUrl of chapterLinks) {
-    const chapterResponse = await axios.get(chapterUrl);
+    // Use proxy for chapter URLs
+    const chapterResponse = await axios.get(`${proxyBaseUrl}${encodeURIComponent(chapterUrl)}`);
     const chapter$ = cheerio.load(chapterResponse.data);
     const chapterText: string = chapter$('.entry-content').html() || '';
     chapters.push(chapterText);
