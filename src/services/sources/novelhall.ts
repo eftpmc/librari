@@ -46,7 +46,7 @@ export async function scrapeNovelhallContent(url: string, startChapter: number, 
 
   const chapters: string[] = [];
   for (const chapterUrl of chapterLinks) {
-    const chapterResponse = await axios.get(chapterUrl, { headers });
+    const chapterResponse = await axios.get(chapterUrl);
     const chapter$ = cheerio.load(chapterResponse.data);
     const chapterText: string = chapter$('.entry-content').html() || '';
     chapters.push(chapterText);
