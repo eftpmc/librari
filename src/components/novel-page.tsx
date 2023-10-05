@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { SearchForm } from './search-form';
 import { SearchResults } from './searchresults/component';
 import { ScrapeForm } from '@/components/scrape-form'
+import { IconButtonContainer, IconButton } from '@/components/icon-container'
 
 export default function NovelPage() {
   const [keyword, setKeyword] = useState<string | null>(null);
@@ -16,6 +17,7 @@ export default function NovelPage() {
       <SearchForm keywordCallback={setKeyword} />
       <SearchResults keyword={keyword} titleCallback={setTitleToScrape} urlCallback={setUrlToScrape}/>
       <ScrapeForm titleToScrape={titleToScrape} urlToScrape={urlToScrape}></ScrapeForm>
+      <IconButtonContainer></IconButtonContainer>
     </div>
   );
 }
