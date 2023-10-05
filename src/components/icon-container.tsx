@@ -1,6 +1,13 @@
 import * as React from "react";
 import styles from '@/styles/icon-container.module.css';
 
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+  } from "@/components/ui/tooltip"
+
 interface IconButtonProps {
   iconSrc: string;
   altText: string;
