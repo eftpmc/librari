@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 
 import { fetchBookContent } from '@/services/dataFetcher';
+import { convertToEpub } from '@/services/formatHub';
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -21,7 +22,7 @@ import { toast } from "@/components/ui/use-toast"
 type ScrapeProps = {
     titleToScrape: string | null;
     urlToScrape: string | null;
-  };
+};
 
 const formSchema = z.object({
     chapters: z.coerce.number({
@@ -38,16 +39,18 @@ export function ScrapeForm({ titleToScrape, urlToScrape }: ScrapeProps) {
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         toast({
             title: `Title: ${titleToScrape}`,
             description: (
-              `Chapters to scrape: ${values.chapters}`
+                `Chapters to scrape: ${values.chapters}`
             ),
-          })
-          if (urlToScrape){
-            console.log(fetchBookContent(urlToScrape, 0, 10))
-          }
+        })
+        if (urlToScrape) {
+            const payload = await fetchBookContent(urlToScrape, 0, values.chapters);
+            
+            convertToEpub(payload);
+        }
     }
 
     return (
