@@ -37,6 +37,7 @@ export async function scrapeNovelhallContent(url: string, startChapter: number, 
   const imgUrl: string = $('.book-img img').attr('src') || '';
 
   // Use proxy for image URL
+  const imgProxyUrl = `${proxyBaseUrl}${encodeURIComponent(imgUrl)}`
   const imgResponse = await axios.get(`${proxyBaseUrl}${encodeURIComponent(imgUrl)}`, { responseType: 'arraybuffer' });
   const imgContent: Buffer = imgResponse.data;
 
@@ -57,6 +58,6 @@ export async function scrapeNovelhallContent(url: string, startChapter: number, 
     chapters.push(chapterText);
   }
 
-  return { title, imgContent, chapters };
+  return { title, imgProxyUrl, chapters };
 }
 

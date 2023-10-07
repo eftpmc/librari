@@ -47,9 +47,32 @@ export function ScrapeForm({ titleToScrape, urlToScrape }: ScrapeProps) {
             ),
         })
         if (urlToScrape) {
-            const payload = await fetchBookContent(urlToScrape, 0, values.chapters);
+            const {title,imgProxyUrl,chapters} = await fetchBookContent(urlToScrape, 0, values.chapters);
             
-            convertToEpub(payload);
+            try {
+                const response = await fetch('/api/generateEpub', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        title,
+                        imgProxyUrl,
+                        chapters
+                    }),
+                });
+        
+                const blob = await response.blob();
+                const href = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = href;
+                link.setAttribute('download', `${title}.epub`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (error) {
+                console.error("Error generating EPUB:", error);
+            }
         }
     }
 

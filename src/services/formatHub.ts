@@ -1,12 +1,17 @@
-import { arrayOutputType } from 'zod';
 import { epub } from './formats/epub';
 
 type payload = {
     title: string;
-    imgContent: ArrayBuffer;
+    imgContent: string;
     chapters: Array<string>;
 }
 
 export async function convertToEpub({title,imgContent,chapters}: payload) {
-  console.log("epub");
+    console.log(imgContent)
+    try {
+        await epub(title,imgContent,chapters);
+        console.log("EPUB created successfully");
+    } catch (err) {
+        console.error("Error generating EPUB: ", err);
+    }
 }
