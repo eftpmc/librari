@@ -47,32 +47,35 @@ export function ScrapeForm({ titleToScrape, urlToScrape }: ScrapeProps) {
             ),
         })
         if (urlToScrape) {
-            const {title,imgProxyUrl,chapters} = await fetchBookContent(urlToScrape, 0, values.chapters);
-            
-            try {
-                const response = await fetch('/api/generateEpub', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        title,
-                        imgProxyUrl,
-                        chapters
-                    }),
-                });
-        
-                const blob = await response.blob();
-                const href = window.URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = href;
-                link.setAttribute('download', `${title}.epub`);
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            } catch (error) {
-                console.error("Error generating EPUB:", error);
-            }
+            const { title, imgProxyUrl, chapters } = await fetchBookContent(urlToScrape, 0, values.chapters);
+
+            const data = {
+                title: title,
+                coverImage: imgProxyUrl,
+                chapters: chapters
+            };
+
+            fetch("/api/generateEpub", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const epubBase64 = data.epubBase64;
+                    const blob = new Blob([new Uint8Array(atob(epubBase64).split("").map(char => char.charCodeAt(0)))], { type: "application/epub+zip" });
+                    const url = URL.createObjectURL(blob);
+
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `${title}.epub`;
+                    a.click();
+
+                    URL.revokeObjectURL(url);  // free up storage--remove the blob which was used for this url
+                })
+                .catch(error => console.error('Error:', error));
         }
     }
 
