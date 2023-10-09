@@ -7,6 +7,14 @@ import JSZip from "jszip";
 import sanitizeHtml from 'sanitize-html';
 
 async function fetchImageAndSaveToTemp(url: string): Promise<string> {
+    const response = await axios.get(url, { responseType: 'arraybuffer' });
+    const buffer = Buffer.from(response.data, 'binary');
+    const filePath = `/tmp/${Date.now()}.jpeg`;
+    await fs.promises.writeFile(filePath, buffer);
+    return filePath;
+}
+
+async function LOCAL_fetchImageAndSaveToTemp(url: string): Promise<string> {
     const response = await axios.get(url, {
         responseType: 'arraybuffer'
     });
