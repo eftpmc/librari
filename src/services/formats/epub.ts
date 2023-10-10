@@ -6,7 +6,7 @@ var nodepub = require('nodepub');
 import JSZip from "jszip";
 import sanitizeHtml from 'sanitize-html';
 
-async function fetchImageAndSaveToTemp(url: string): Promise<string> {
+async function VERCEL_fetchImageAndSaveToTemp(url: string): Promise<string> {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
     const buffer = Buffer.from(response.data, 'binary');
     const filePath = `/tmp/${Date.now()}.jpeg`;
@@ -68,7 +68,7 @@ async function createEpub(files: any[]): Promise<Buffer> {
 }
 
 export async function createEpubBuffer(title: string, coverImage: string, chapters: string[]): Promise<Buffer> {
-    const coverImagePath = await fetchImageAndSaveToTemp(coverImage);
+    const coverImagePath = await LOCAL_fetchImageAndSaveToTemp(coverImage);
 
     const metadata = {
         id: Date.now().toString(),

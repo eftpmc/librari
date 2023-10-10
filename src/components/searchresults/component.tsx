@@ -6,6 +6,15 @@ import { Result, columns } from "./columns";
 import { DataTable } from "./data-table";
 import { fetchSearchResults } from '@/services/dataFetcher';
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
 // Types
 type SearchResultsProps = {
   keyword: string | null;
@@ -48,14 +57,21 @@ export function SearchResults({ keyword, titleCallback, urlCallback }: SearchRes
 
   // Data display
   return (
-    <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={results} 
-      titleCallback={(title: string) => {
-        titleCallback(title);
-      }} 
-      urlCallback={(url: string) => {
-        urlCallback(url);
-      }} />
-    </div>
+    <Card className="w-[350px]">
+      <CardHeader>
+        <CardTitle>2. Select a Book</CardTitle>
+        <CardDescription>Select the book you would like.</CardDescription>
+      </CardHeader>
+      <CardContent className="flex space-x-4">
+        <DataTable columns={columns} data={results}
+          titleCallback={(title: string) => {
+            titleCallback(title);
+          }}
+          urlCallback={(url: string) => {
+            urlCallback(url);
+          }} />
+      </CardContent>
+    </Card>
+
   );
 }

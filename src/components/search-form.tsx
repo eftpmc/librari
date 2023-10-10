@@ -14,6 +14,14 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 
@@ -24,7 +32,7 @@ const formSchema = z.object({
 
 type SearchFormProps = {
     keywordCallback: (keyword: string) => void;
-  };
+};
 
 export function SearchForm({ keywordCallback }: SearchFormProps) {
     const form = useForm<z.infer<typeof formSchema>>({
@@ -38,33 +46,41 @@ export function SearchForm({ keywordCallback }: SearchFormProps) {
         toast({
             title: "You searched for the following book:",
             description: (
-              `${values.keyword}`
+                `${values.keyword}`
             ),
-          })
-          keywordCallback(values.keyword);
+        })
+        keywordCallback(values.keyword);
     }
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <FormField
-                    control={form.control}
-                    name="keyword"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Search Form</FormLabel>
-                            <FormControl>
-                                <Input placeholder="supreme magus.." {...field} />
-                            </FormControl>
-                            <FormDescription>
-                                This is the title of the book you are searching for.
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <Button type="submit">Search</Button>
-            </form>
-        </Form>
+        <Card className="w-[350px]">
+            <CardHeader>
+                <CardTitle>1. Search for a Book</CardTitle>
+                <CardDescription>Search our librari of books.</CardDescription>
+            </CardHeader>
+            <CardContent className="flex space-x-4">
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                        <FormField
+                            control={form.control}
+                            name="keyword"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Search Form</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="supreme magus.." {...field} />
+                                    </FormControl>
+                                    <FormDescription>
+                                        This is the title of the book you are searching for.
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Button type="submit">Search</Button>
+                    </form>
+                </Form>
+            </CardContent>
+        </Card>
     )
 }

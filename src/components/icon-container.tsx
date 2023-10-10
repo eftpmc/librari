@@ -1,34 +1,88 @@
-import * as React from "react";
+"use client"
+import React, { useState, useEffect } from 'react';
 import styles from '@/styles/icon-container.module.css';
+import { Downloads, DownloadInfo } from '@/components/novel-page'
 
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-  } from "@/components/ui/tooltip"
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 interface IconButtonProps {
   iconSrc: string;
   altText: string;
-  onClick?: () => void;
+  href?: string;
+  download?: string;
 }
 
-const IconButton: React.FC<IconButtonProps> = ({ iconSrc, altText, onClick }) => (
-  <div className={styles.iconButton} onClick={onClick}>
-    <img src={iconSrc} alt={altText} />
-  </div>
-);
-
-const IconButtonContainer: React.FC = () => {
+export function IconButton({ iconSrc, altText, href, download }: IconButtonProps) {
   return (
-    <div className={styles.iconButtonContainer}>
-      <IconButton iconSrc="books.png" altText="Apple Books" onClick={() => console.log("Books clicked!")} />
-      <IconButton iconSrc="pdf.png" altText="PDF" onClick={() => console.log("PDF clicked!")} />
-      <IconButton iconSrc="mobi.png" altText="Mobi" onClick={() => console.log("Mobi clicked!")} />
-      {/* Add more icon buttons as needed */}
+    <div className={styles.iconButton}>
+      <a href={href} download={download}>
+        <img src={iconSrc} alt={altText} />
+      </a>
     </div>
   );
 }
 
-export { IconButtonContainer, IconButton };
+type ContainerProps = {
+  downloadsCalldown: Downloads;
+};
+
+export function IconButtonContainer({ downloadsCalldown }: ContainerProps) {
+  const [downloads, setDownloads] = useState<Downloads>({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (downloadsCalldown.apple) {
+      setIsLoading(false);
+      setDownloads(downloadsCalldown)
+    }
+  }, [downloadsCalldown]);
+
+  if (isLoading) return (
+    <div className="flex justify-center items-center py-6 text-lg font-semibold text-gray-600">
+      No Downloads Yet
+    </div>
+  );
+
+  if (error) return (
+    <div className="flex justify-center items-center py-6 text-lg font-semibold text-red-600">
+      Error: {error}
+    </div>
+  );
+
+  return (
+    <Card className="w-[350px]">
+      <CardHeader>
+        <CardTitle>4. Get Downloads</CardTitle>
+        <CardDescription>Choose your preferred file format below.</CardDescription>
+      </CardHeader>
+      <CardContent className="flex space-x-4">
+        <IconButton
+          iconSrc="books.png"
+          altText="Apple Books"
+          href={downloads.apple?.url}
+          download={`${downloads.apple?.title}.epub`}
+        />
+        <IconButton
+          iconSrc="pdf.png"
+          altText="PDF"
+          href={downloads.pdf?.url}
+          download={`${downloads.pdf?.title}.epub`}
+        />
+        <IconButton
+          iconSrc="mobi.png"
+          altText="Mobi"
+          href={downloads.mobi?.url}
+          download={`${downloads.mobi?.title}.epub`}
+        />
+      </CardContent>
+    </Card>
+  );
+}
