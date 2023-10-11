@@ -79,7 +79,7 @@ export function ScrapeForm({ titleToScrape, urlToScrape, downloadsCallback }: Sc
                     const blob = new Blob([new Uint8Array(atob(epubBase64).split("").map(char => char.charCodeAt(0)))], { type: "application/epub+zip" });
                     const url = URL.createObjectURL(blob);
 
-                    setDownloads({
+                    downloadsCallback({
                         apple: {
                             title: title,
                             url: url
@@ -92,7 +92,7 @@ export function ScrapeForm({ titleToScrape, urlToScrape, downloadsCallback }: Sc
                             title: title,
                             url: url
                         },
-                    });
+                    })
 
                     /* const a = document.createElement("a");
                     a.href = url;
@@ -102,8 +102,6 @@ export function ScrapeForm({ titleToScrape, urlToScrape, downloadsCallback }: Sc
                     //URL.revokeObjectURL(url);  // free up storage--remove the blob which was used for this url
                 })
                 .catch(error => console.error('Error:', error));
-
-            downloadsCallback(downloads)
         }
     }
 

@@ -26,7 +26,7 @@ export default function NovelPage() {
 
   return (
     <div className="container mx-auto py-10 space-y-10">
-      <SearchForm keywordCallback={setKeyword} />
+      <SearchForm keywordCallback={setKeyword}/>
       <SearchResults keyword={keyword} titleCallback={setTitleToScrape} urlCallback={setUrlToScrape}/>
       <ScrapeForm titleToScrape={titleToScrape} urlToScrape={urlToScrape} downloadsCallback={setDownloads}></ScrapeForm>
       <IconButtonContainer downloadsCalldown={downloads}></IconButtonContainer>
