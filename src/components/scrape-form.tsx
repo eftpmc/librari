@@ -38,10 +38,11 @@ type ScrapeProps = {
 };
 
 const formSchema = z.object({
-    chapters: z.number().int().positive().refine(value => !isNaN(value), {
-        message: "Chapters must be a number",
-    }),
-});
+    chapters: z.coerce.number({
+        required_error: "Chapters are required",
+        invalid_type_error: "Chapters must be a number",
+    }).int().positive(),
+})
 
 type FormData = {
     chapters: number;
