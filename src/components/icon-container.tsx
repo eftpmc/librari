@@ -36,18 +36,18 @@ type ContainerProps = {
 export function IconButtonContainer({ downloadsCalldown }: ContainerProps) {
   const [downloads, setDownloads] = useState<Downloads>({
     apple: {
-        title: "",
-        url: ""
+      title: "",
+      url: ""
     },
     mobi: {
-        title: "",
-        url: ""
+      title: "",
+      url: ""
     },
     pdf: {
-        title: "",
-        url: ""
+      title: "",
+      url: ""
     },
-});
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -60,9 +60,17 @@ export function IconButtonContainer({ downloadsCalldown }: ContainerProps) {
   }, [downloadsCalldown]);
 
   if (isLoading) return (
-    <div className="flex justify-center items-center py-6 text-lg font-semibold text-gray-600">
-      No Downloads Yet
-    </div>
+    <Card className="w-[350px]">
+      <CardHeader>
+        <CardTitle>4. Get Downloads</CardTitle>
+        <CardDescription>Choose your preferred file format below.</CardDescription>
+      </CardHeader>
+      <CardContent className="flex space-x-4">
+        <div className="flex justify-center items-center py-6 text-lg font-semibold text-gray-600">
+          No Downloads Yet
+        </div>
+      </CardContent>
+    </Card>
   );
 
   if (error) return (

@@ -43,9 +43,17 @@ export function SearchResults({ keyword, titleCallback, urlCallback }: SearchRes
 
   // Styled loading state
   if (isLoading) return (
-    <div className="flex justify-center items-center py-6 text-lg font-semibold text-gray-600">
-      No Data
-    </div>
+    <Card className="w-[350px]">
+      <CardHeader>
+        <CardTitle>2. Select a Book</CardTitle>
+        <CardDescription>Select the book you would like.</CardDescription>
+      </CardHeader>
+      <CardContent className="flex space-x-4">
+        <div className="flex justify-center items-center py-6 text-lg font-semibold text-gray-600">
+          No Data
+        </div>
+      </CardContent>
+    </Card>
   );
 
   // Styled error state
