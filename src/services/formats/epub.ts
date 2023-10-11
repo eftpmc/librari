@@ -68,7 +68,7 @@ async function createEpub(files: any[]): Promise<Buffer> {
 }
 
 export async function createEpubBuffer(title: string, coverImage: string, chapters: string[]): Promise<Buffer> {
-    const coverImagePath = await LOCAL_fetchImageAndSaveToTemp(coverImage);
+    const coverImagePath = await VERCEL_fetchImageAndSaveToTemp(coverImage);
 
     const metadata = {
         id: Date.now().toString(),

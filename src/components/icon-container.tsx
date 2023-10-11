@@ -34,20 +34,7 @@ type ContainerProps = {
 };
 
 export function IconButtonContainer({ downloadsCalldown }: ContainerProps) {
-  const [downloads, setDownloads] = useState<Downloads>({
-    apple: {
-      title: "",
-      url: ""
-    },
-    mobi: {
-      title: "",
-      url: ""
-    },
-    pdf: {
-      title: "",
-      url: ""
-    },
-  });
+  const [downloads, setDownloads] = useState<Downloads>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
