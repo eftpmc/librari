@@ -1,11 +1,11 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+"use client";
 
-import { Downloads, DownloadInfo } from '@/components/novel-page'
-import { fetchBookContent } from '@/services/dataFetcher';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+// UI Components
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -24,8 +24,12 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { toast } from "@/components/ui/use-toast"
+import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
+
+// Services and Types
+import { fetchBookContent } from '@/services/dataFetcher';
+import { Downloads, DownloadInfo } from '@/components/novel-page';
 
 type ScrapeProps = {
     titleToScrape: string | null;
@@ -34,74 +38,58 @@ type ScrapeProps = {
 };
 
 const formSchema = z.object({
-    chapters: z.coerce.number({
-        required_error: "Chapters are required",
-        invalid_type_error: "Chapters must be a number",
-    }).int().positive(),
-})
+    chapters: z.number().int().positive().refine(value => !isNaN(value), {
+        message: "Chapters must be a number",
+    }),
+});
+
+type FormData = {
+    chapters: number;
+};
+
+async function fetchEpub(title: string, data: any, downloadsCallback: React.Dispatch<React.SetStateAction<Downloads>>) {
+    try {
+        const response = await fetch("/api/generateEpub", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+
+        const { epubBase64 } = await response.json();
+        const blob = new Blob([new Uint8Array(atob(epubBase64).split("").map(char => char.charCodeAt(0)))], { type: "application/epub+zip" });
+        const url = URL.createObjectURL(blob);
+
+        downloadsCallback({
+            apple: { title, url },
+            mobi: { title, url },
+            pdf: { title, url },
+        });
+
+    } catch (error) {
+        console.error('Error fetching epub:', error);
+    }
+}
 
 export function ScrapeForm({ titleToScrape, urlToScrape, downloadsCallback }: ScrapeProps) {
-    const [downloads, setDownloads] = useState<Downloads>({});
-
-    const form = useForm<z.infer<typeof formSchema>>({
+    const form = useForm<FormData>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            chapters: 1,
-        },
-    })
+        defaultValues: { chapters: 1 },
+    });
 
-    async function onSubmit(values: z.infer<typeof formSchema>) {
-        toast({
-            title: `Title: ${titleToScrape}`,
-            description: (
-                `Chapters to scrape: ${values.chapters}`
-            ),
-        })
+    async function onSubmit(values: FormData) {
+        toast({ title: `Title: ${titleToScrape}`, description: `Chapters to scrape: ${values.chapters}` });
+
         if (urlToScrape) {
-            const { title, imgProxyUrl, chapters } = await fetchBookContent(urlToScrape, 0, values.chapters);
-
+            const content = await fetchBookContent(urlToScrape, 0, values.chapters);
             const data = {
-                title: title,
-                coverImage: imgProxyUrl,
-                chapters: chapters
+                title: content.title,
+                coverImage: content.imgProxyUrl,
+                chapters: content.chapters,
             };
 
-            fetch("/api/generateEpub", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    const epubBase64 = data.epubBase64;
-                    const blob = new Blob([new Uint8Array(atob(epubBase64).split("").map(char => char.charCodeAt(0)))], { type: "application/epub+zip" });
-                    const url = URL.createObjectURL(blob);
-
-                    downloadsCallback({
-                        apple: {
-                            title: title,
-                            url: url
-                        },
-                        mobi: {
-                            title: title,
-                            url: url
-                        },
-                        pdf: {
-                            title: title,
-                            url: url
-                        },
-                    })
-
-                    /* const a = document.createElement("a");
-                    a.href = url;
-                    a.download = `${title}.epub`;
-                    a.click(); */
-
-                    //URL.revokeObjectURL(url);  // free up storage--remove the blob which was used for this url
-                })
-                .catch(error => console.error('Error:', error));
+            fetchEpub(titleToScrape || '', data, downloadsCallback);
         }
     }
 
@@ -124,7 +112,7 @@ export function ScrapeForm({ titleToScrape, urlToScrape, downloadsCallback }: Sc
                                         <Input type="number" placeholder="1" {...field} />
                                     </FormControl>
                                     <FormDescription>
-                                        This is the amount of chapters you want.
+                                        Specify the number of chapters to scrape.
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
@@ -135,5 +123,5 @@ export function ScrapeForm({ titleToScrape, urlToScrape, downloadsCallback }: Sc
                 </Form>
             </CardContent>
         </Card>
-    )
+    );
 }

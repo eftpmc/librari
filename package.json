@@ -39,6 +39,7 @@
   "devDependencies": {
     "@types/epub-gen": "^0.1.0",
     "@types/node": "latest",
+    "@types/nodepub": "^3.0.1",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@types/sanitize-html": "^2.9.1",
