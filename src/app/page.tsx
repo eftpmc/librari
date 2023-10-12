@@ -23,7 +23,7 @@ const Page: NextPage = () => {
       </main>
 
       <footer className={styles.footer}>
-        Powered by{' '}
+        Powered by {' '}
         <a
           href="https://nextjs.org"
           target="_blank"

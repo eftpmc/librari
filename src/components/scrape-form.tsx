@@ -38,14 +38,19 @@ type ScrapeProps = {
 };
 
 const formSchema = z.object({
-    chapters: z.coerce.number({
+    startChapters: z.coerce.number({
+        required_error: "Starting chapter is required",
+        invalid_type_error: "Starting chapter must be a number",
+    }).int().positive(),
+    chapterAmount: z.coerce.number({
         required_error: "Chapters are required",
         invalid_type_error: "Chapters must be a number",
     }).int().positive(),
 })
 
 type FormData = {
-    chapters: number;
+    startChapters: number;
+    chapterAmount: number;
 };
 
 async function fetchEpub(title: string, data: any, downloadsCallback: React.Dispatch<React.SetStateAction<Downloads>>) {
@@ -76,14 +81,17 @@ async function fetchEpub(title: string, data: any, downloadsCallback: React.Disp
 export function ScrapeForm({ titleToScrape, urlToScrape, downloadsCallback }: ScrapeProps) {
     const form = useForm<FormData>({
         resolver: zodResolver(formSchema),
-        defaultValues: { chapters: 1 },
+        defaultValues: { 
+            startChapters: 1,
+            chapterAmount: 1
+        },
     });
 
     async function onSubmit(values: FormData) {
-        toast({ title: `Title: ${titleToScrape}`, description: `Chapters to scrape: ${values.chapters}` });
+        toast({ title: `Title: ${titleToScrape}`, description: `Chapters to scrape: ${values.chapterAmount}` });
 
         if (urlToScrape) {
-            const content = await fetchBookContent(urlToScrape, 0, values.chapters);
+            const content = await fetchBookContent(urlToScrape, values.startChapters - 1, values.chapterAmount);
             const data = {
                 title: content.title,
                 coverImage: content.imgProxyUrl,
@@ -105,7 +113,23 @@ export function ScrapeForm({ titleToScrape, urlToScrape, downloadsCallback }: Sc
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         <FormField
                             control={form.control}
-                            name="chapters"
+                            name="startChapters"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Starting Chapter</FormLabel>
+                                    <FormControl>
+                                        <Input type="number" placeholder="1" {...field} />
+                                    </FormControl>
+                                    <FormDescription>
+                                        Specify the chapter to begin on.
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="chapterAmount"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Chapters</FormLabel>
