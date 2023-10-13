@@ -27,7 +27,7 @@ import { toast } from "@/components/ui/use-toast"
 
 
 const formSchema = z.object({
-    keyword: z.string().min(2).max(20),
+    keyword: z.string().min(2).max(40),
 })
 
 type SearchFormProps = {
