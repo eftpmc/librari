@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import styles from '@/styles/icon-container.module.css';
 import { Downloads, DownloadInfo } from '@/components/novel-page'
 
@@ -23,7 +24,7 @@ export function IconButton({ iconSrc, altText, href, download }: IconButtonProps
   return (
     <div className={styles.iconButton}>
       <a href={href} download={download}>
-        <img src={iconSrc} alt={altText} />
+        <Image src={iconSrc} alt={altText} />
       </a>
     </div>
   );
