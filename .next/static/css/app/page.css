@@ -1,0 +1,88 @@
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[7].use[3]!./src/styles/page.module.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+/* styles/Home.module.css */
+.page_container__IibMw {
+    min-height: 100vh;
+    padding: 0 0rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .page_main__xXfsr {
+    padding: 5rem 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .page_footer__8Ie1g {
+    background-color: #0070f3;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .page_footer__8Ie1g img {
+    margin-left: 0.5rem;
+  }
+  
+  .page_footer__8Ie1g a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .page_title__AnOgy a {
+    color: #0070f3;
+    text-decoration: none;
+  }
+  
+  .page_title__AnOgy a:hover,
+  .page_title__AnOgy a:focus,
+  .page_title__AnOgy a:active {
+    text-decoration: underline;
+  }
+  
+  .page_title__AnOgy {
+    margin: 0;
+    line-height: 1.15;
+    font-size: 4rem;
+  }
+  
+  .page_title__AnOgy,
+  .page_description__bNOiT {
+    text-align: center;
+  }
+  
+  .page_description__bNOiT {
+    line-height: 1.5;
+    font-size: 1.5rem;
+  }
+  
+  .page_code__wBbdK {
+    background: hsl(217.2 32.6% 17.5%);
+    border-radius: 5px;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+      Bitstream Vera Sans Mono, Courier New, monospace;
+  }
+  
+  .page_logo__4wOtS {
+    height: 1em;
+  }
+  
+  @media (max-width: 600px) {
+    .page_grid__HaXhD {
+      width: 100%;
+      flex-direction: column;
+    }
+  }
+  

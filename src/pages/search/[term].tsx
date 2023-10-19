@@ -25,7 +25,7 @@ const SearchResults = () => {
     }
   }, [term]); // This effect should re-run if the term changes
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Grabbing Data...</div>;
 
   return (
     <div>
