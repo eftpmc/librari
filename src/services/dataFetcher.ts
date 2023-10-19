@@ -10,7 +10,7 @@ type ScraperFunction = (url: string, startChapter: number, chaptersToScrape: num
 }>;
 
 const SCRAPER_MAP: { [domain: string]: ScraperFunction } = {
-  'novelhall.com': scrapeNovelhallContent,
+  'www.novelhall.com': scrapeNovelhallContent,
   // ... other domains and their scraper functions
 };
 
