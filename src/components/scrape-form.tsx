@@ -137,13 +137,13 @@ export function ScrapeForm({ titleToScrape, urlToScrape, downloadsCallback }: Sc
                                         <Input type="number" placeholder="1" {...field} />
                                     </FormControl>
                                     <FormDescription>
-                                        Specify the number of chapters to scrape.
+                                        Specify the number of chapters to download.
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit">Scrape</Button>
+                        <Button type="submit">Download</Button>
                     </form>
                 </Form>
             </CardContent>
