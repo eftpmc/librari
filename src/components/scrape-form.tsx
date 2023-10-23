@@ -45,7 +45,7 @@ const formSchema = z.object({
     chapterAmount: z.coerce.number({
         required_error: "Chapters are required",
         invalid_type_error: "Chapters must be a number",
-    }).int().positive(),
+    }).int().positive().max(250, "Chapters can not exceed 250"),
 })
 
 type FormData = {

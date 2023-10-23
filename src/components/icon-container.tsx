@@ -24,7 +24,7 @@ export function IconButton({ iconSrc, altText, href, download }: IconButtonProps
   return (
     <div className={styles.iconButton}>
       <a href={href} download={download}>
-        <Image src={iconSrc} alt={altText} />
+        <Image src={iconSrc} alt={altText} width="256" height="256"/>
       </a>
     </div>
   );
@@ -75,19 +75,19 @@ export function IconButtonContainer({ downloadsCalldown }: ContainerProps) {
       </CardHeader>
       <CardContent className="flex space-x-4">
         <IconButton
-          iconSrc="books.png"
+          iconSrc="/books.png"
           altText="Apple Books"
           href={downloads.apple?.url}
           download={`${downloads.apple?.title}.epub`}
         />
         <IconButton
-          iconSrc="pdf.png"
+          iconSrc="/pdf.png"
           altText="PDF"
           href={downloads.pdf?.url}
           download={`${downloads.pdf?.title}.epub`}
         />
         <IconButton
-          iconSrc="mobi.png"
+          iconSrc="/mobi.png"
           altText="Mobi"
           href={downloads.mobi?.url}
           download={`${downloads.mobi?.title}.epub`}
